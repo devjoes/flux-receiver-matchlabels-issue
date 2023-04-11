@@ -32,7 +32,7 @@ spec:
   # Yes our GitRepository actually looks like this
   ignore: |
     *
-    !./flux-target-1
+    !flux-target-1
   interval: 5m
   ref:
     branch: master
@@ -50,7 +50,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: test-gitrepository
+    name: test-gitrepository-1
   timeout: 5m
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -64,7 +64,7 @@ spec:
   # Yes our GitRepository actually looks like this
   ignore: |
     *
-    !./flux-target-2
+    !flux-target-2
   interval: 5m
   ref:
     branch: master
@@ -96,7 +96,7 @@ spec:
   # Yes our GitRepository actually looks like this
   ignore: |
     *
-    !./flux-target-3
+    !flux-target-3
   interval: 5m
   ref:
     branch: master
