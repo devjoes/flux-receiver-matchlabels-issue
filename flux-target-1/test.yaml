@@ -5,3 +5,4 @@ metadata:
   namespace: flux-target-1
 data:
   foo: foo1-1
+  
