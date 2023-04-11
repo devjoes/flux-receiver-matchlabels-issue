@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test
+  namespace: flux-target-2
+data:
+  foo: foo1

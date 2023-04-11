@@ -10,6 +10,6 @@ kubectl get Receiver -n flux-system test-receiver -o yaml
 echo "Go create a webhook with token $TOKEN"
 #TODO: maybe output the URL and secret
 while date; do
-	kubectl get configmap test -o yaml | grep foo
+	kubectl get configmap -A -o yaml | grep -P foo
 	sleep 10s
 done

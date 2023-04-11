@@ -1,44 +1,3 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: GitRepository
-metadata:
-  name: test-gitrepository
-  namespace: flux-system
-  labels:
-    test: foo
-spec:
-  # Yes our GitRepository actually looks like this
-  ignore: |
-    *
-    !flux-target
-  interval: 5m
-  ref:
-    branch: master
-  # required for v1beta2
-  #gitImplementation: go-git
-  # secretRef:
-  #   name: flux-https-credentials
-  timeout: 20s
-  url: https://github.com/devjoes/flux-receiver-matchlabels-issue
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: test-kustomization
-  namespace: flux-system
-spec:
-  interval: 600s
-  path: ./flux-target
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: test-gitrepository
-  timeout: 5m
-  # postBuild:
-  #   substituteFrom:
-  #     - kind: ConfigMap
-  #       name: terraform-outputs
-
----
 apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Receiver
 metadata:
@@ -60,4 +19,102 @@ spec:
       kind: GitRepository
       name: "*"
       matchLabels:
-        test: foo
+        repository: flux-receiver-matchlabels-issue
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: test-gitrepository-1
+  namespace: flux-system
+  labels:
+    repository: flux-receiver-matchlabels-issue
+spec:
+  # Yes our GitRepository actually looks like this
+  ignore: |
+    *
+    !./flux-target-1
+  interval: 5m
+  ref:
+    branch: master
+  timeout: 20s
+  url: https://github.com/devjoes/flux-receiver-matchlabels-issue
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: test-kustomization-1
+  namespace: flux-system
+spec:
+  interval: 600s
+  path: ./flux-target-1
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: test-gitrepository
+  timeout: 5m
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: test-gitrepository-2
+  namespace: flux-system
+  labels:
+    repository: flux-receiver-matchlabels-issue
+spec:
+  # Yes our GitRepository actually looks like this
+  ignore: |
+    *
+    !./flux-target-2
+  interval: 5m
+  ref:
+    branch: master
+  timeout: 20s
+  url: https://github.com/devjoes/flux-receiver-matchlabels-issue
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: test-kustomization-2
+  namespace: flux-system
+spec:
+  interval: 600s
+  path: ./flux-target-2
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: test-gitrepository-2
+  timeout: 5m
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: test-gitrepository-3
+  namespace: flux-system
+  labels:
+    repository: flux-receiver-matchlabels-issue
+spec:
+  # Yes our GitRepository actually looks like this
+  ignore: |
+    *
+    !./flux-target-3
+  interval: 5m
+  ref:
+    branch: master
+  timeout: 20s
+  url: https://github.com/devjoes/flux-receiver-matchlabels-issue
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: test-kustomization-3
+  namespace: flux-system
+spec:
+  interval: 600s
+  path: ./flux-target-3
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: test-gitrepository-3
+  timeout: 5m
+---
+
