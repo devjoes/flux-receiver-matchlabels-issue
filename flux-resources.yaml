@@ -1,4 +1,4 @@
-apiVersion: source.toolkit.fluxcd.io/v1
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
   name: test-gitrepository
@@ -13,12 +13,14 @@ spec:
   interval: 5m
   ref:
     branch: master
+  # required for v1beta2
+  gitImplementation: go-git
   # secretRef:
   #   name: flux-https-credentials
   timeout: 20s
   url: https://github.com/devjoes/flux-receiver-matchlabels-issue
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: test-kustomization
@@ -37,7 +39,7 @@ spec:
   #       name: terraform-outputs
 
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
 kind: Receiver
 metadata:
   name: test-receiver
@@ -50,7 +52,11 @@ spec:
   secretRef:
     name: webhook-token
   resources:
-    - kind: GitRepository
-      name: "*"
-      matchLabels:
-        test: foo
+    - apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: GitRepository
+      name: "test-gitrepository"
+      namespace: flux-system
+    # - kind: GitRepository
+    #   name: "*"
+    #   matchLabels:
+    #     test: foo

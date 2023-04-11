@@ -7,7 +7,5 @@ kubectl create ns flux-system
 kubectl apply -f flux.yaml --wait
 echo 'Waiting'
 sleep 90s
-kubectl port-forward --namespace flux-system service/notification-controller 9090:80 &
-#echo $! > pids
-ngrok http 9090
-#echo $! >> pids
+tmux split-window -v 'kubectl port-forward --namespace flux-system service/webhook-receiver 9292:80'
+tmux split-window -v 'ngrok http 9292'
