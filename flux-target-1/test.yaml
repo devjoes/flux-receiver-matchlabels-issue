@@ -4,5 +4,5 @@ metadata:
   name: test
   namespace: flux-target-1
 data:
-  foo: foo1-1
+  foo: foo1-2
   
